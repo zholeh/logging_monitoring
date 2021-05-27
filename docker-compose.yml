@@ -7,6 +7,7 @@ services:
       - 8081:8081
     depends_on:
       - redis
+      - jaeger
     networks:
       - mynet
   books:
@@ -27,7 +28,17 @@ services:
       - mynet
     depends_on:
       - redis
-
+  jaeger:
+    image: jaegertracing/all-in-one:latest
+    container_name: jaeger
+    ports:
+      - "6831:6831/udp"
+      - "6832:6832/udp"
+      - "5778:5778"
+      - "16686:16686"
+      - "14268:14268"
+    networks:
+      - mynet
   redis:
     image: redis:latest
     container_name: redis
